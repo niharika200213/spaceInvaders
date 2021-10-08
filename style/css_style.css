@@ -68,6 +68,7 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
     background-image: url("../images/bg4.jpg");
     background-repeat: repeat-y;
     background-size: cover;
+    position: relative;
 }
 
 .scoreArea h6:nth-of-type(3){
@@ -88,3 +89,10 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
 #ships img:hover{box-shadow: 4px 4px white;}
 
 #ships img:active{box-shadow: 0 2px white;transform: translateY(3px);}
+
+#curShip{
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    width: 4.5%;
+}
