@@ -7,7 +7,9 @@ const playerShip = document.querySelector("#curShip");
 
 const playerShipdimension = playerShip.getBoundingClientRect();
 
-const shipSpeed = 8;
+var x = playerShipdimension.left;
+
+const shipSpeed = 7;
 
 document.addEventListener('keydown', (e) => {
     
@@ -15,17 +17,24 @@ document.addEventListener('keydown', (e) => {
     {
 
     case "ArrowLeft":
-        if( playerShipdimension[left] > 5 )
+
+        console.log("foo");
+        if( x > 15 )
         {
-            playerShipdimension[left] -= shipSpeed; 
+            x -= shipSpeed; 
+            document.getElementById("curShip").style.left = x + "px";
         }
     break;
 
     case "ArrowRight":
-        if( playerShipdimension[right] < 1004 )
+
+        console.log("fee");
+        if( x < 985)
         {
-            playerShipdimension[right] -= shipSpeed;
+            x += shipSpeed;
+            document.getElementById("curShip").style.left = x + "px";
         }
+    break;
     }
 
 });
@@ -48,6 +57,3 @@ document.getElementById("ship3").addEventListener("click",function(){
 function chooseShip(spaceship){    
     document.getElementById("curShip").src=spaceship;
 }
-
-document.addEventListener("keydown", controller.keyListner);
-document.addEventListener("keydown", controller.keyListner);    
