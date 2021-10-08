@@ -14,15 +14,24 @@
         <header>SPACE INVADERS</header>
     </div>
     <div class="container">
+
         <div class="mainArea">
             <canvas id="gameArea"></canvas>
         </div>
+
         <div class="scoreArea">
             <header class="scoreHead font-effect-emboss font-effect-neon">SCORECARD</header>
             <h6>SCORE : <span id="score"></span></h6>
             <h6>LIVES : </h6>
             <div><button id='restart' onclick="restart()"><b>RESTART</b></button></div>
+            <h6>CHOOSE YOUR SPACESHIP</h6>
+            <div id="ships">
+                <img src="images/ship1.png" id="ship1">
+                <img src="images/ship2.png" id="ship2">
+                <img src="images/ship3.png" id="ship3">
+            </div>
         </div>
+
     </div>
     <script src="script/main.js"></script>
 </body>
