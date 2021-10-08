@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Creepster&effect=emboss|neon' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Orelega One' rel='stylesheet'>
     <link rel="stylesheet" href="style/css_style.css">
     <title>Space Invader</title>
 </head>
@@ -15,11 +16,29 @@
         <header>SPACE INVADERS</header>
     </div>
     <div class="container">
-        <div class="mainArea"></div>
-        <div class="scoreArea font-effect-emboss font-effect-neon">
-            <h2>SCORE</h2>
+
+        <div class="mainArea">
+            <div id="gameArea">
+                <div>
+                    <img src="images/ship1.png" id="curShip">
+                </div>
+            </div>
         </div>
+
+        <div class="scoreArea">
+            <header class="scoreHead font-effect-emboss font-effect-neon">SCORECARD</header>
+            <h6>SCORE : <span id="score"></span></h6>
+            <h6>LIVES : </h6>
+            <div><button id='restart' onclick="restart()"><b>RESTART</b></button></div>
+            <h6>CHOOSE YOUR SPACESHIP</h6>
+            <div id="ships">
+                <img src="images/ship1.png" id="ship1">
+                <img src="images/ship2.png" id="ship2">
+                <img src="images/ship3.png" id="ship3">
+            </div>
+        </div>
+
     </div>
-    <script src="main.js"></script>
+    <script src="script/main.js"></script>
 </body>
 </html>

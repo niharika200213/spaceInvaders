@@ -4,13 +4,19 @@
 body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
     width: 100%;
     height: 100vh;
-    overflow: hidden;
-    }
+    overflow: hidden;}
 
 .heading{font-size: 50px;
-    margin: 20px;
+    margin: 20px 35% 10px 35%;
     color: rgb(75, 75, 75);
-    font-family: 'creepster';}
+    font-family: 'creepster';
+    }
+
+.scoreHead{font-size: 35px;
+    margin: 20px 25% 60px 25%;
+    color: rgb(75, 75, 75);
+    font-family: 'creepster';
+}
 
 .container{display: flex;
     justify-content: center;
@@ -29,10 +35,64 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
     border-radius: 5%;
     margin: 20px;
     overflow: hidden;
-    font-family: 'creepster';
-    color: rgb(75, 75, 75);
-    font-size: 35px;
-    padding: 20px;
+    align-items: center;
 }
 
-.scoreArea h2{margin: auto;}
+.scoreArea h6{font-family: Orelega One;
+    color: darkgray;
+    font-size: 30px;
+    margin: 20px;
+    text-shadow: 4px 4px black;
+}
+
+#restart{
+    padding: 20px;
+    font-family: 'Times New Roman';
+    background-color: darkslategray;
+    font-size: 30px;
+    cursor: pointer;
+    box-shadow: 5px 5px #999;
+    margin: 20px 0 20px 50px;
+}
+
+#restart:hover {background-color: rgb(31, 59, 59);
+    color: white;}
+
+#restart:active{box-shadow: 0 2px #666;
+    transform: translateY(3px);
+    color: white;}
+
+#gameArea{
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/bg4.jpg");
+    background-repeat: repeat-y;
+    background-size: cover;
+    position: relative;
+}
+
+.scoreArea h6:nth-of-type(3){
+    font-family: 'Times New Roman';
+    color: white;
+    font-size: 30px;
+    margin: 20px;
+    text-shadow: none;
+}
+
+#ships{display: flex;justify-content: center;}
+
+#ships img{width: 20%;
+    margin: 20px;
+    cursor: pointer;
+}
+
+#ships img:hover{box-shadow: 4px 4px white;}
+
+#ships img:active{box-shadow: 0 2px white;transform: translateY(3px);}
+
+#curShip{
+    position: absolute;
+    bottom: 5px;
+    left: 500px;
+    width: 4.5%;
+}
