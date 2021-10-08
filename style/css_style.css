@@ -9,8 +9,7 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
 .heading{font-size: 50px;
     margin: 20px 35% 10px 35%;
     color: rgb(75, 75, 75);
-    font-family: 'creepster';
-    }
+    font-family: 'creepster';}
 
 .scoreHead{font-size: 35px;
     margin: 20px 25% 60px 25%;
@@ -69,6 +68,15 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
     background-repeat: repeat-y;
     background-size: cover;
     position: relative;
+    animation-name: bgImg;
+    animation-duration: 6s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes bgImg{
+    from {background-position-y: 0;}
+    to {background-position-y: 583px;}
 }
 
 .scoreArea h6:nth-of-type(3){
