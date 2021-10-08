@@ -61,3 +61,8 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
 #restart:active{box-shadow: 0 2px #666;
     transform: translateY(3px);
     color: white;}
+
+#gameArea{
+    width: 100%;
+    height: 100%;
+}

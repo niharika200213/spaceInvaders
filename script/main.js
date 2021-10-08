@@ -1,3 +1,4 @@
 function restart(){
-    location.reload(true);
+    location.reload();
+    return false;
 }
