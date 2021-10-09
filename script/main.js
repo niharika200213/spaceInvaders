@@ -32,6 +32,7 @@ function countdown(){
         else if(i<0){
             clearInterval(id);
             document.getElementById("countdown").style.display="none";
+            document.getElementById("ships").style.pointerEvents="none";
         }
         else{
             document.getElementById("countdown").innerHTML=i;
@@ -40,5 +41,5 @@ function countdown(){
 }
 
 function start(){
-    setTimeout(countdown,500);
+    setTimeout(countdown,100);
 }
