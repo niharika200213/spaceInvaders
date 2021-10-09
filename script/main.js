@@ -85,8 +85,6 @@ document.getElementById("ship3").addEventListener("click",function(){
 function chooseShip(spaceship){    
     document.getElementById("curShip").src=spaceship;
 }
-<<<<<<< HEAD
-=======
 
 function countdown(){
     var i=5;
@@ -110,4 +108,3 @@ function countdown(){
 function start(){
     setTimeout(countdown,500);
 }
->>>>>>> 6b67fc539eae55c56d62fbd4393774dfceada04c
