@@ -9,19 +9,20 @@ const playerShip = document.querySelector("#curShip");
 var x = 500;
 var y = 5;
 
-const shipSpeed = 10;
+const shipSpeed = 8;
 
 let Keys = {
     up: false,
     down: false,
     left: false,
-    right: false
+    right: false,
+    space: false
 };
 
 function move(){
 
     if(Keys.up){
-        if(y < 523){
+        if(y < 200){
         y +=  shipSpeed;
         document.getElementById("curShip").style.bottom = y + "px";
         }
@@ -45,6 +46,10 @@ function move(){
         if(x < 997)
         x += shipSpeed;
         document.getElementById("curShip").style.left = x + "px";
+    }
+
+    if(Keys.space){
+        createLaser(x,y);
     }
 }
 
@@ -83,6 +88,7 @@ function countdown(){
                 if(keycode == "ArrowUp") Keys.up = true;
                 if(keycode == "ArrowRight") Keys.right = true;
                 if(keycode == "ArrowDown") Keys.down = true;
+                if(keycode == "Space") Keys.space = true;
                 move();
             });
            
@@ -93,6 +99,7 @@ function countdown(){
                 if(keycode == "ArrowUp") Keys.up = false;
                 if(keycode == "ArrowRight") Keys.right = false;
                 if(keycode == "ArrowDown") Keys.down = false;
+                if(keycode == "Space") Keys.space = false;
            });
 
         }
@@ -103,5 +110,49 @@ function countdown(){
 }
 
 function start(){
-    setTimeout(countdown,100);
+    countdown();
+    document.getElementById("start").style.pointerEvents='none';
+    document.getElementById("start").onkeydown = function (e) {return false;};
+}
+
+var lasers=[];
+var enemies=[];
+
+function createLaser(x, y){
+    const laser = document.createElement("img");
+    laser.src = "images/laser.png";
+    laser.className = "laser";
+    document.querySelector("#gameArea").appendChild(laser);
+    const laserObj = {x, y, laser};
+    lasers.push(laserObj);
+    laser.style.transform = `translate(${x}px, ${y}px)`;
+    updateLaser();
+}
+  
+function updateLaser(){
+    for(let i = 0; i < lasers.length; i++){
+      const laser = lasers[i];
+      laser.y -= 2;
+      if (laser.y < 0){
+        deleteLaser(laser);
+      }
+      laser.style.transform = `translate(${x}px, ${y}px)`;
+      const laser_rect = laser.getBoundingClientRect();
+      for(let j = 0; j < enemies.length; j++){
+        const enemy = enemies[j];
+        const enemy_rect = enemy.getBoundingClientRect();
+        if(collideRect(enemy_rect, laser_rect)){
+          deleteLaser(laser);
+          const index = enemies.indexOf(enemy);
+          enemies.splice(index,1);
+          document.querySelector("#gameArea").removeChild(enemy);
+        }
+      }
+    }
+}
+
+function deleteLaser(laser){
+    const index = lasers.indexOf(laser);
+    lasers.splice(index,1);
+    document.querySelector("#gameArea").removeChild(laser);
 }
