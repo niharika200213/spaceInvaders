@@ -44,20 +44,22 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
     text-shadow: 4px 4px black;
 }
 
-#restart{
-    padding: 20px;
+#buttons{display: flexbox;}
+
+#restart,#start{
+    padding: 10px;
     font-family: 'Times New Roman';
     background-color: darkslategray;
-    font-size: 30px;
+    font-size: 20px;
     cursor: pointer;
     box-shadow: 5px 5px #999;
-    margin: 20px 0 20px 50px;
+    margin: 20px 10px 10px 20px;
 }
 
-#restart:hover {background-color: rgb(31, 59, 59);
+#restart:hover,#start:hover {background-color: rgb(31, 59, 59);
     color: white;}
 
-#restart:active{box-shadow: 0 2px #666;
+#restart:active,#start:active{box-shadow: 0 2px #666;
     transform: translateY(3px);
     color: white;}
 
@@ -76,7 +78,7 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
 
 @keyframes bgImg{
     from {background-position-y: 0;}
-    to {background-position-y: 583px;}
+    to {background-position-y: 582px;}
 }
 
 .scoreArea h6:nth-of-type(3){
@@ -103,4 +105,11 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
     bottom: 5px;
     left: 500px;
     width: 4.5%;
+}
+
+#countdown{position: absolute;
+    top: 40%;
+    left: 47%;
+    color: wheat;
+    font-size: 100px;
 }
