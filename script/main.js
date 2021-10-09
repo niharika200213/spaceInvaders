@@ -2,6 +2,72 @@ function restart(){
     location.reload();
     return false;
 }
+
+const playerShip = document.querySelector("#curShip");
+
+
+var x = 500;
+var y = 5;
+
+const shipSpeed = 7;
+
+let Keys = {
+    up: false,
+    down: false,
+    left: false,
+    right: false
+};
+
+document.addEventListener("keydown", function(e){
+     var keycode = e.code;
+
+     if(keycode == "ArrowLeft") Keys.left = true;
+     if(keycode == "ArrowUp") Keys.up = true;
+     if(keycode == "ArrowRight") Keys.right = true;
+     if(keycode == "ArrowDown") Keys.down = true;
+
+     move();
+ });
+
+document.addEventListener("keyup", function(e){
+     var keycode = e.code;
+
+     if(keycode == "ArrowLeft") Keys.left = false;
+     if(keycode == "ArrowUp") Keys.up = false;
+     if(keycode == "ArrowRight") Keys.right = false;
+     if(keycode == "ArrowDown") Keys.down = false;
+});
+
+function move(){
+
+    if(Keys.up){
+        if(y < 523){
+        y +=  shipSpeed;
+        document.getElementById("curShip").style.bottom = y + "px";
+        }
+    }
+
+    if(Keys.down){
+        if(y > 5){
+        y -=  shipSpeed;
+        document.getElementById("curShip").style.bottom = y + "px";
+        }
+    }
+
+    if(Keys.left) {
+       if(x > 10){
+        x -= shipSpeed; 
+        document.getElementById("curShip").style.left = x + "px";
+       }
+    }
+
+    if(Keys.right){
+        if(x < 997)
+        x += shipSpeed;
+        document.getElementById("curShip").style.left = x + "px";
+    }
+}
+
 let ship1=document.getElementById("ship1");
 let ship2=document.getElementById("ship2");
 let ship3=document.getElementById("ship3");
@@ -19,6 +85,8 @@ document.getElementById("ship3").addEventListener("click",function(){
 function chooseShip(spaceship){    
     document.getElementById("curShip").src=spaceship;
 }
+<<<<<<< HEAD
+=======
 
 function countdown(){
     var i=5;
@@ -41,5 +109,11 @@ function countdown(){
 }
 
 function start(){
+<<<<<<< HEAD
     setTimeout(countdown,100);
 }
+=======
+    setTimeout(countdown,500);
+}
+>>>>>>> 6b67fc539eae55c56d62fbd4393774dfceada04c
+>>>>>>> f76b34c034abfd3d09c3ce87130ec664e6f78fd8
