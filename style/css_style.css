@@ -113,3 +113,9 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
     color: wheat;
     font-size: 100px;
 }
+
+.enemy {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+}
