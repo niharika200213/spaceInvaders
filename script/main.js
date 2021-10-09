@@ -9,7 +9,7 @@ const playerShip = document.querySelector("#curShip");
 var x = 500;
 var y = 5;
 
-const shipSpeed = 7;
+const shipSpeed = 10;
 
 let Keys = {
     up: false,
@@ -17,26 +17,6 @@ let Keys = {
     left: false,
     right: false
 };
-
-document.addEventListener("keydown", function(e){
-     var keycode = e.code;
-
-     if(keycode == "ArrowLeft") Keys.left = true;
-     if(keycode == "ArrowUp") Keys.up = true;
-     if(keycode == "ArrowRight") Keys.right = true;
-     if(keycode == "ArrowDown") Keys.down = true;
-
-     move();
- });
-
-document.addEventListener("keyup", function(e){
-     var keycode = e.code;
-
-     if(keycode == "ArrowLeft") Keys.left = false;
-     if(keycode == "ArrowUp") Keys.up = false;
-     if(keycode == "ArrowRight") Keys.right = false;
-     if(keycode == "ArrowDown") Keys.down = false;
-});
 
 function move(){
 
@@ -68,10 +48,6 @@ function move(){
     }
 }
 
-let ship1=document.getElementById("ship1");
-let ship2=document.getElementById("ship2");
-let ship3=document.getElementById("ship3");
-
 document.getElementById("ship1").addEventListener("click",function(){
     chooseShip("images/ship1.png");}
     );
@@ -99,6 +75,26 @@ function countdown(){
             clearInterval(id);
             document.getElementById("countdown").style.display="none";
             document.getElementById("ships").style.pointerEvents="none";
+            document.addEventListener("keydown", function(e){
+
+                var keycode = e.code;
+           
+                if(keycode == "ArrowLeft") Keys.left = true;
+                if(keycode == "ArrowUp") Keys.up = true;
+                if(keycode == "ArrowRight") Keys.right = true;
+                if(keycode == "ArrowDown") Keys.down = true;
+                move();
+            });
+           
+           document.addEventListener("keyup", function(e){
+                var keycode = e.code;
+           
+                if(keycode == "ArrowLeft") Keys.left = false;
+                if(keycode == "ArrowUp") Keys.up = false;
+                if(keycode == "ArrowRight") Keys.right = false;
+                if(keycode == "ArrowDown") Keys.down = false;
+           });
+
         }
         else{
             document.getElementById("countdown").innerHTML=i;
