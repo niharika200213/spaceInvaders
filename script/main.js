@@ -156,6 +156,7 @@ function start(){
 
 function setPosition($enemy, x, y) {
     $enemy.style.transform = `translate(${x+180}px, ${y}px)`;
+    
   }
 
 function createEnemy(gameArea, x, y){
@@ -174,21 +175,20 @@ function createEnemy(gameArea, x, y){
    {
     const dx = Math.sin(Date.now()/1000)*40;
     const dy = Math.cos(Date.now()/1000)*30;
-
+    var enemiesss = document.getElementsByClassName("enemy");
     const enemies = STATE.enemies;
 
-    for (let i = 0; i < enemies.length; i++){
-      const enemy = enemies[i];
-      var a = enemy.x + dx;
-      var b = enemy.y + dy;
-      setPosition(enemy.$enemy, a, b);
-      enemy.cooldown = Math.random(0,100);
-      if (enemy.enemy_cooldown == 0){
-
-        enemy.enemy_cooldown = Math.floor(Math.random()*50)+100;
-      }
-      enemy.enemy_cooldown -= 0.5;
-    }
+    setInterval(() => {
+        for (let i = 0; i < enemiesss.length; i++){
+            var enemy = enemiesss[i];
+            enemy.style.top = enemy.offsetTop + 2 + "px";
+          //   var a = enemy.x + dx;
+          //   var b = enemy.y + dy;
+      
+          //   setPosition(enemy.$enemy, a, b);
+          }
+    }, 100);
+ 
   }
 
 function createEnemies(gameArea) {
