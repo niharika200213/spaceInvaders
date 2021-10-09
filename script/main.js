@@ -5,31 +5,70 @@ function restart(){
 
 const playerShip = document.querySelector("#curShip");
 const playerShipdimension = playerShip.getBoundingClientRect();
-var x = playerShipdimension.left
+
+var x = 500;
+var y = 5;
+
 const shipSpeed = 7;
 
-document.addEventListener('keydown', (e) => {
-    switch(e.code)
-    {
-    case "ArrowLeft":
-        console.log("foo");
-        if( x > 15 ){
-            x -= shipSpeed; 
-            document.getElementById("curShip").style.left = x + "px";
-        }
-    break;
+let Keys = {
+    up: false,
+    down: false,
+    left: false,
+    right: false
+};
 
-    case "ArrowRight":
-        console.log("fee");
-        if( x < 985){
-            x += shipSpeed;
-            document.getElementById("curShip").style.left = x + "px";
-        }
-    break;
-    }
+var log = document.getElementById("log");
 
+document.addEventListener("keydown", function(e){
+     var keycode = e.code;
+
+     if(keycode == "ArrowLeft") Keys.left = true;
+     if(keycode == "ArrowUp") Keys.up = true;
+     if(keycode == "ArrowRight") Keys.right = true;
+     if(keycode == "ArrowDown") Keys.down = true;
+
+     move();
+ });
+
+document.addEventListener("keyup", function(e){
+     var keycode = e.code;
+
+     if(keycode == "ArrowLeft") Keys.left = false;
+     if(keycode == "ArrowUp") Keys.up = false;
+     if(keycode == "ArrowRight") Keys.right = false;
+     if(keycode == "ArrowDown") Keys.down = false;
 });
 
+function move(){
+
+    if(Keys.up){
+        if(y < 523){
+        y +=  shipSpeed;
+        document.getElementById("curShip").style.bottom = y + "px";
+        }
+    }
+
+    if(Keys.down){
+        if(y > 5){
+        y -=  shipSpeed;
+        document.getElementById("curShip").style.bottom = y + "px";
+        }
+    }
+
+    if(Keys.left) {
+       if(x > 10){
+        x -= shipSpeed; 
+        document.getElementById("curShip").style.left = x + "px";
+       }
+    }
+
+    if(Keys.right){
+        if(x < 997)
+        x += shipSpeed;
+        document.getElementById("curShip").style.left = x + "px";
+    }
+}
 
 let ship1=document.getElementById("ship1");
 let ship2=document.getElementById("ship2");
