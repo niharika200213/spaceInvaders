@@ -4,7 +4,7 @@ function restart(){
 }
 
 const playerShip = document.querySelector("#curShip");
-const playerShipdimension = playerShip.getBoundingClientRect();
+
 
 var x = 500;
 var y = 5;
@@ -17,8 +17,6 @@ let Keys = {
     left: false,
     right: false
 };
-
-var log = document.getElementById("log");
 
 document.addEventListener("keydown", function(e){
      var keycode = e.code;

@@ -93,7 +93,6 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
 #curShip{
     position: absolute;
     bottom: 5px;
-    /* top: 20px; */
     left: 500px;
     width: 4.5%;
 }
