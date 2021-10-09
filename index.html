@@ -21,6 +21,7 @@
                 <div>
                     <img src="images/ship1.png" id="curShip">
                 </div>
+                <h1 id="countdown"></h1>
             </div>
         </div>
 
@@ -28,7 +29,10 @@
             <header class="scoreHead font-effect-emboss font-effect-neon">SCORECARD</header>
             <h6>SCORE : <span id="score"></span></h6>
             <h6>LIVES : </h6>
-            <div><button id='restart' onclick="restart()"><b>RESTART</b></button></div>
+            <div id="buttons">
+                <button id='start' onclick="start()"><b>START</b></button>
+                <button id='restart' onclick="restart()"><b>RESTART</b></button>
+            </div>
             <h6>CHOOSE YOUR SPACESHIP</h6>
             <div id="ships">
                 <img src="images/ship1.png" id="ship1">

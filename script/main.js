@@ -85,3 +85,29 @@ document.getElementById("ship3").addEventListener("click",function(){
 function chooseShip(spaceship){    
     document.getElementById("curShip").src=spaceship;
 }
+<<<<<<< HEAD
+=======
+
+function countdown(){
+    var i=5;
+    var id=setInterval(cd,1000);
+    function cd(){
+        if(i==0){
+            document.getElementById("countdown").style.left="43%";
+            document.getElementById("countdown").innerHTML="Go!!";
+            i--;
+        }
+        else if(i<0){
+            clearInterval(id);
+            document.getElementById("countdown").style.display="none";
+        }
+        else{
+            document.getElementById("countdown").innerHTML=i;
+            i--;}
+    }
+}
+
+function start(){
+    setTimeout(countdown,500);
+}
+>>>>>>> 6b67fc539eae55c56d62fbd4393774dfceada04c
