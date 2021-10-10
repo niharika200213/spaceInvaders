@@ -91,7 +91,7 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
 
 #ships{display: flex;justify-content: center;}
 
-#ships img{width: 20%;
+#ships img{width: 50px;
     margin: 20px;
     cursor: pointer;
 }
@@ -112,21 +112,21 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
     left: 47%;
     color: wheat;
     font-size: 100px;
+    z-index: 1;
 }
 
-<<<<<<< HEAD
-=======
-.main .laser{height: 20px;
+.laser{height: 30px;
     z-index: -1;
 }
 
->>>>>>> enemymove
 .enemy {
     width: 50px;
     height: 50px;
     position: absolute;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> enemymove
+
+.star{width: 30px;}
+
+.enemyLaser{position: absolute;
+    margin-left: -2.5px;
+    height: 20px;}
