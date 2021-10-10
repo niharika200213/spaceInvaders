@@ -112,7 +112,7 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
     left: 47%;
     color: wheat;
     font-size: 100px;
-    z-index: 1;
+    z-index: 2;
 }
 
 .laser{height: 30px;
@@ -123,9 +123,11 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
     width: 50px;
     height: 50px;
     position: absolute;
+    z-index: 1;
 }
 
 .star{width: 30px;}
 
-.enemyLaser{z-index: -2;
+.enemyLaser{
+    position: absolute;
     height: 50px;}
