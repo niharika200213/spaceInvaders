@@ -16,37 +16,32 @@ const GAME_HEIGHT = 600;
 const STATE = {
     x_pos : 0,
     y_pos : 0,
-    move_right: false,
-    move_left: false,
-    shoot: false,
     lasers: [],
     enemyLasers: [],
     enemies : [],
-    spaceship_width: 50,
-    enemy_width: 50,
-    cooldown : 0,
-    number_of_enemies: 16,
-    enemy_cooldown : 0,
-    gameOver: false
+    number_of_enemies: 24,
+    counter: 0
   }
 
 var x = 500;
 var y = 5;
 
 
-const shipSpeed = 10;
+const shipSpeed = 8;
+
 
 let Keys = {
     up: false,
     down: false,
     left: false,
-    right: false
+    right: false,
+    space: false
 };
 
 function move(){
 
     if(Keys.up){
-        if(y < 523){
+        if(y < 200){
         y +=  shipSpeed;
         document.getElementById("curShip").style.bottom = y + "px";
         }
@@ -70,6 +65,10 @@ function move(){
         if(x < 997)
         x += shipSpeed;
         document.getElementById("curShip").style.left = x + "px";
+    }
+
+    if(Keys.space){
+        createLaser();
     }
 }
 
@@ -108,6 +107,7 @@ function countdown(){
                 if(keycode == "ArrowUp") Keys.up = true;
                 if(keycode == "ArrowRight") Keys.right = true;
                 if(keycode == "ArrowDown") Keys.down = true;
+                if(keycode == "Space") Keys.space = true;
                 move();
             });
            
@@ -118,7 +118,10 @@ function countdown(){
                 if(keycode == "ArrowUp") Keys.up = false;
                 if(keycode == "ArrowRight") Keys.right = false;
                 if(keycode == "ArrowDown") Keys.down = false;
+                if(keycode == "Space") Keys.space = false;
            });
+
+           setInterval(updateEnemiesY,100);
 
         }
         else{
@@ -128,36 +131,14 @@ function countdown(){
 }
 
 function start(){
-    setTimeout(countdown,100);
+    countdown();
+    document.getElementById("start").style.pointerEvents='none';
+    document.getElementById("start").onkeydown = function (e) {return false;};
 }
-
-
-// function createEnemy(gameArea, x, y) {
-//     const $enemy = document.createElement("img");
-//     $enemy.src = "img/enemy-blue-1.png";
-//     $enemy.className = "enemy";
-//     gameArea.appendChild($enemy);
-//     const enemy = {
-//       x,
-//       y,
-//       $enemy
-//     };
-
-
-// const enemySpacing = (GAME_WIDTH - ENEMY_HORIZONTAL_PADDING * 2) / (ENEMIES_PER_ROW - 1);
-//     for (let j = 0; j < 3; j++) {
-//       const y = ENEMY_VERTICAL_PADDING + j * ENEMY_VERTICAL_SPACING;
-//       for (let i = 0; i < ENEMIES_PER_ROW; i++) {
-//         const x = i * enemySpacing + ENEMY_HORIZONTAL_PADDING;
-//         createEnemy(gameArea, x, y);
-//         setPosition(element, x, y);
-//       }
-//     }
 
 function setPosition($enemy, x, y) {
     $enemy.style.transform = `translate(${x+180}px, ${y}px)`;
-    
-  }
+}
 
 function createEnemy(gameArea, x, y){
     const $enemy = document.createElement("img");
@@ -171,47 +152,47 @@ function createEnemy(gameArea, x, y){
   }
   
 
-   function updateEnemies() //(gameArea)
-   {
-    const dx = Math.sin(Date.now()/1000)*40;
-    const dy = Math.cos(Date.now()/1000)*30;
-    var enemiesss = document.getElementsByClassName("enemy");
+function updateEnemies()
+{
+    const dx = 70*Math.cos(Date.now()/500);
+    const dy = 40*Math.sin(Date.now()/500) + STATE.counter;
+
     const enemies = STATE.enemies;
 
-    setInterval(() => {
-        for (let i = 0; i < enemiesss.length; i++){
-            var enemy = enemiesss[i];
-            enemy.style.top = enemy.offsetTop + 2 + "px";
-          //   var a = enemy.x + dx;
-          //   var b = enemy.y + dy;
-      
-          //   setPosition(enemy.$enemy, a, b);
-          }
-    }, 100);
- 
+    for (let i = 0; i < enemies.length; i++){
+      const enemy = enemies[i];
+      var a = enemy.x + dx;
+      var b = enemy.y + dy;
+      setPosition(enemy.$enemy, a, b);
+    }
   }
+
+function updateEnemiesY()
+{
+    STATE.counter += 0.125;
+}
 
 function createEnemies(gameArea) {
 
-    for(var i = 0; i <= STATE.number_of_enemies/2; i++){
+    for(var i = 0; i <= STATE.number_of_enemies/3; i++){
       createEnemy(gameArea, i*80, 100);
     } 
-    for(var i = 0; i <= STATE.number_of_enemies/2; i++){
+    for(var i = 0; i <= STATE.number_of_enemies/3; i++){
       createEnemy(gameArea, i*80, 180);
     }
-
-  }
-
-
-  const gameArea = document.querySelector("#gameArea");
-  createEnemies(gameArea);
-  setInterval(() => {
-    update();
-  }, 45);
+    for(var i = 0; i <= STATE.number_of_enemies/3; i++){
+        createEnemy(gameArea, i*80, 260);
+      }
+}
 
 
-  function update(){
+const gameArea = document.querySelector("#gameArea");
+createEnemies(gameArea);
+
+setInterval(update, 20);
+setInterval(update, 500);
+
+function update(){
+    updateEnemiesY();
     updateEnemies(gameArea);
-  }
-
-
+}
