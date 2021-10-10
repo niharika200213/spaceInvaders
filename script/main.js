@@ -19,7 +19,8 @@ const STATE = {
     lasers: [],
     enemyLasers: [],
     enemies : [],
-    number_of_enemies: 16
+    number_of_enemies: 24,
+    counter: 0
   }
 
 var x = 500;
@@ -152,8 +153,9 @@ function createEnemy(gameArea, x, y){
 
 function updateEnemies()
 {
-    const dx = Math.sin(Date.now()/1000)*50;
-    const dy = Math.cos(Date.now()/1000)*30;
+    const dx = 70*Math.cos(Date.now()/500);
+    const dy = 40*Math.sin(Date.now()/500) + STATE.counter;
+
     const enemies = STATE.enemies;
 
     for (let i = 0; i < enemies.length; i++){
@@ -164,31 +166,32 @@ function updateEnemies()
     }
   }
 
+function updateEnemiesY()
+{
+    STATE.counter += 0.125;
+}
+
 function createEnemies(gameArea) {
 
-    for(var i = 0; i <= STATE.number_of_enemies/2; i++){
+    for(var i = 0; i <= STATE.number_of_enemies/3; i++){
       createEnemy(gameArea, i*80, 100);
     } 
-    for(var i = 0; i <= STATE.number_of_enemies/2; i++){
+    for(var i = 0; i <= STATE.number_of_enemies/3; i++){
       createEnemy(gameArea, i*80, 180);
     }
+    for(var i = 0; i <= STATE.number_of_enemies/3; i++){
+        createEnemy(gameArea, i*80, 260);
+      }
 }
 
-function updateEnemiesY(){
-    const enemies = STATE.enemies;
-    for (let i = 0; i < enemies.length; i++){
-      const enemy = enemies[i];
-      var a = enemy.x;
-      var b = enemy.y + 1;
-      enemy.y=b;
-      setPosition(enemy.$enemy, a, b);
-    }
-}
 
 const gameArea = document.querySelector("#gameArea");
 createEnemies(gameArea);
-setInterval(update, 10);
+
+setInterval(update, 20);
+setInterval(update, 500);
 
 function update(){
+    updateEnemiesY();
     updateEnemies(gameArea);
 }
