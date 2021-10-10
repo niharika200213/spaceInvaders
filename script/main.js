@@ -36,28 +36,12 @@ var y = 5;
 const shipSpeed = 8;
 
 let Keys = {
-    up: false,
-    down: false,
     left: false,
     right: false,
     space: false
 };
 
 function move(){
-
-    if(Keys.up){
-        if(y < 200){
-        y +=  shipSpeed;
-        document.getElementById("curShip").style.bottom = y + "px";
-        }
-    }
-
-    if(Keys.down){
-        if(y > 5){
-        y -=  shipSpeed;
-        document.getElementById("curShip").style.bottom = y + "px";
-        }
-    }
 
     if(Keys.left) {
        if(x > 10){
@@ -95,9 +79,7 @@ function countdown(){
                 var keycode = e.code;
            
                 if(keycode == "ArrowLeft") Keys.left = true;
-                if(keycode == "ArrowUp") Keys.up = true;
                 if(keycode == "ArrowRight") Keys.right = true;
-                if(keycode == "ArrowDown") Keys.down = true;
                 if(keycode == "Space") Keys.space = true;
                 move();
             });
@@ -106,13 +88,12 @@ function countdown(){
                 var keycode = e.code;
            
                 if(keycode == "ArrowLeft") Keys.left = false;
-                if(keycode == "ArrowUp") Keys.up = false;
                 if(keycode == "ArrowRight") Keys.right = false;
-                if(keycode == "ArrowDown") Keys.down = false;
                 if(keycode == "Space") Keys.space = false;
            });
            
-            setInterval(update, 20);
+            setInterval(update, 10);
+            setInterval(createEnemyLaser,1000);
 
         }
         else{
@@ -151,9 +132,6 @@ function updateEnemies()
       var a = enemy.x + dx;
       var b = enemy.y + dy;
       setPosition(enemy.$enemy, a, b);
-      if (enemy.enemy_cooldown == 0){
-        createEnemyLaser($container, a, b);
-      }
     }
 }
 
@@ -182,6 +160,54 @@ setInterval(updateEnemies,10);
 function update(){
     updateEnemiesY();
     updateEnemies(gameArea);
+}
+setInterval(updateLaser,20);
+setInterval(updateEnemyLaser,20);
+let c=0;
+function createLaser(){
+    const $laser = document.createElement("img");
+    $laser.src = "images/laser.png";
+    $laser.className = "laser";
+    gameArea.appendChild($laser);
+    var y=470;
+    var playerpos=playerShip.getBoundingClientRect();
+    var x=playerpos.left-playerpos.width-c;
+    c+=5;
+    var laser={x,y,$laser};
+    STATE.lasers.push(laser);
+    $laser.style.transform=`translate(${x}px,${y}px)`;
+}
+
+function updateLaser(){
+    for (let i = 0; i < STATE.lasers.length; i++){
+        const laser = STATE.lasers[i];
+        laser.y-=2;
+        laser.$laser.style.transform=`translate(${laser.x}px,${laser.y}px)`;
+    }
+}
+
+function createEnemyLaser(){
+    var no=Math.floor(Math.random() * 100);
+    if(no<60){
+        const $enemylaser = document.createElement("img");
+        $enemylaser.src = "images/enemyLaser.png";
+        $enemylaser.className = "enemyLaser";
+        gameArea.appendChild($enemylaser);
+        var enemy=STATE.enemies[Math.floor(Math.random() * 25)];
+        var x=enemy.x;
+        var y=enemy.y;
+        var enemylaser={x,y,$enemylaser};
+        STATE.enemyLasers.push(enemylaser);
+        $enemylaser.style.transform=`translate(${x}px,${y}px)`;
+    }
+}
+
+function updateEnemyLaser(){
+    for (let i = 0; i < STATE.enemyLasers.length; i++){
+        var laser = STATE.enemyLasers[i];
+        laser.y+=5;
+        laser.$laser.style.transform=`translate(${laser.x}px,${laser.y}px)`;
+    }
 }
 
 function collideRect(rect1, rect2){
