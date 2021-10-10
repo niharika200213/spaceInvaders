@@ -104,7 +104,7 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
     position: absolute;
     bottom: 5px;
     left: 500px;
-    width: 4.5%;
+    width: 50px;
 }
 
 #countdown{position: absolute;
@@ -112,6 +112,10 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
     left: 47%;
     color: wheat;
     font-size: 100px;
+}
+
+.main .laser{height: 20px;
+    z-index: -1;
 }
 
 .enemy {
