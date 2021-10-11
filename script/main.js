@@ -1,9 +1,16 @@
-let flag=1;
+let flag=1; //Flag to ensure that game has ended
+
+//Restart button triggers location.reload() which reloads the current url
 function restart(){
     location.reload();
     return false;
 }
 
+//This function handles the theme music as the page loads each time
+document.getElementById("theme_song").play();
+
+
+/*Choosing 3 ships using event listeners*/
 document.getElementById("ship1").addEventListener("click",function(){
     chooseShip("images/ship1.png");}
     );
@@ -13,70 +20,129 @@ document.getElementById("ship2").addEventListener("click",function(){
 document.getElementById("ship3").addEventListener("click",function(){
     chooseShip("images/ship3.png");}
     );
+/*-------------------------------------*/
 
+
+//Function created to replace the chosen ship as the current ship
 function chooseShip(spaceship){    
     document.getElementById("curShip").src=spaceship;
 }
 
 let playerShip = document.querySelector("#curShip");
 
+/*-------------------------------------------------*/
+
+
+//----variable declaration----'
 const STATE = {
-    lasers: [],
-    enemyLasers: [],
-    enemies : [],
-    number_of_enemies: 27,
-    lives: 3
+    lasers: [], //Stores the location of player laser as object
+    enemyLasers: [], //Stores the location of enemy laser as object
+    enemies : [], //Stores the location of enemy as object
+    number_of_enemies: 27, //Stores the number of enemies spawned in the beginning as object
+    lives: 3, //Stores lives of player's ship throughout the game.
+    shipSpeed: 8 //stores the 
 }
+var x = 500; //Stores the intial x axis position of the ship in pixels
+var y = 5; //Stores the intial y axis position of the ship in pixels
 
-var x = 500;
-var y = 5;
+/*-------------------------------------------------*/
 
-const shipSpeed = 8;
 
-document.getElementById("theme_song").play();
+
+
+    //--------Creation of audio objects.----'
 
 var shooting = new Audio("../audio/lasershoot.mp3");
 var self_explosion = new Audio("../audio/disintegrate.mp3");
 var alienlaser = new Audio("../audio/enemylaser.mp3");
 var alienexplosion = new Audio("../audio/enemyexplosion.mp3")
 
+/*-------------------------------------------------*/
+
+
+
+        /*---------The Start Function-------*/
+function start(){
+    countdown(); //Calling the countdown fucntion
+    document.getElementById("start").style.pointerEvents='none'; 
+    document.getElementById("start").onkeydown = function (e) {return false;}; //Function e ensures that keyboard input on start is ignored
+}
+    /*-------------------------------------------------*/
+
+
+
+
+            //---------The Movement Tech--------'
+
 let Keys = {
-    left: false,
-    right: false,
-    space: false
+    left: false, //Stores the left arrow key as boolean object
+    right: false, //Stores the right arrow key as boolean object
+    space: false //Stores the space arrow key as boolean object
 };
+
 
 function move(){
 
     if(Keys.left) {
+    /*If the left key is pressed the boolean becomes true and
+    the following expression is executed*/
        if(x > 10){
-        x -= shipSpeed; 
+        x -= STATE.shipSpeed; 
         document.getElementById("curShip").style.left = x + "px";
        }
     }
 
     if(Keys.right){
+    /*If the right key is pressed the boolean becomes true and
+    the following expression is executed*/
         if(x < 997)
-        x += shipSpeed;
+        x += STATE.shipSpeed;
         document.getElementById("curShip").style.left = x + "px";
     }
 }
+         /*-------------------------------------------------*/
+         
+
+
+
+                 /*--------Countdown to begin the game--------*/
 
 function countdown(){
-    var i=5;
-    var id=setInterval(cd,1000);
+    var i=5; //Variable that stores the counter 
+    var id=setInterval(cd,1000); //Calling the countdown function every 1 second
+
+    /*---------------The Countdown Fucntion----------*/
     function cd(){
         if(i==0){
+            /*If the counter turns to 0 display the begin game message*/
             document.getElementById("countdown").style.left="43%";
             document.getElementById("countdown").innerHTML="Go!!";
-            i--;
+            i--; //To ensure the counter now has -1 as that will be used as a condition to run the game
         }
         else if(i<0){
+
+            /*Using the -1 condition to run the game
+            and the begin the following things:
+            a) Movement Keylisteners
+            b) Remove the pointer event from the ship to prevent the user from selecting the ship when the game begins
+            c) Clear Countdown
+            d) Start the necessary game functions like createLaser, UpdateEnemyLaser etc.
+            */
+
+            //Clear the Countdown
             clearInterval(id);
             document.getElementById("countdown").style.display="none";
+
+            //Remove the pointer events from ships
             document.getElementById("ships").style.pointerEvents="none";
+
+            //Start the Movement KeyListeners
             document.addEventListener("keydown",function(e){
 
+                /*Used multiple if conditions instead of switch case to listen
+                for multiple events at once. Like moving the ship and firing at the same time.
+                In future could also add diagonal movements*/
+                
                 var keycode = e.code;
                 if(keycode == "ArrowLeft") Keys.left = true;
                 if(keycode == "ArrowRight") Keys.right = true;
@@ -86,29 +152,47 @@ function countdown(){
             });
            
             document.addEventListener("keyup",function(e){
+
+                /*Keyup Event Listener to ensure that movement stop when the key is released
+                or in case of Space the laser is fired*/
+
                 var keycode = e.code;
-           
                 if(keycode == "ArrowLeft") Keys.left = false;
                 if(keycode == "ArrowRight") Keys.right = false;
-                if(keycode == "Space"){Keys.space = false; shooting.play(); if(flag==1) createLaser();}
+                if(keycode == "Space"){
+                    Keys.space = false; 
+                    shooting.play(); //Playing the ship shoot laser sound
+                     if(flag==1) createLaser(); //To check the gameover condition is not triggered otherwise user can shoot lasers
+                }
            });
            
-            setInterval(update, 10);
-            setInterval(createEnemyLaser,1000);
+           var update_enemy =  setInterval(updateEnemies,10); //Calling the function to update the position of the enemies
+           var create_enemylaser = setInterval(createEnemyLaser,750); //Calling the function to update the position of the enemy lasers
 
-            function createEnemyLaser(){
-                var index=Math.floor(Math.random()*(STATE.number_of_enemies));
-                if(STATE.number_of_enemies>0){
+            function createEnemyLaser()
+            {
+                /*Function to create the enemy laser on random enemy locations*/
+
+                var index=Math.floor(Math.random()*(STATE.number_of_enemies)); //Generate a random index
+
+                if(STATE.number_of_enemies>0)
+                {
+                    /*If the enemies are greater than 0 then execute the following expression*/
+
+                    /*Generate a enemy laser using img*/
                     const $enemylaser = document.createElement("img");
                     $enemylaser.src = "images/enemyLaser.png";
                     $enemylaser.className = "enemyLaser";
+                    alienlaser.play(); // Play sound when the enemy laser is created
 
-                    alienlaser.play();
-                    gameArea.appendChild($enemylaser);
+                    gameArea.appendChild($enemylaser); //Add the img to the gameArea in HTML
+
+                    /*Enemy is an object which contains their respective class, x and y postion*/
                     var enemy=STATE.enemies[index];
                     var x=enemy.x+180;
                     var y=enemy.y;
                     var enemylaser={x,y,$enemylaser};
+
                     STATE.enemyLasers.push(enemylaser);
                     $enemylaser.style.transform=`translate(${x}px,${y}px)`;
                 }
@@ -116,6 +200,7 @@ function countdown(){
 
         }
         else{
+            /*Decrement the countdown*/ 
             document.getElementById("countdown").style.left="47%";
             document.getElementById("countdown").style.fontSize="100px";
             document.getElementById("countdown").innerHTML=i;
@@ -123,40 +208,50 @@ function countdown(){
     }
 }
 
-function start(){
-    countdown();
-    document.getElementById("start").style.pointerEvents='none';
-    document.getElementById("start").onkeydown = function (e) {return false;};
-}
+    /*----------------------------------------------------------*/
+
+
+
+
+            /*-------------The Enemy Tech------------*/
+
 
 function setPosition(enemy, x, y) {
+    /*Update the position of the enemy using transform where x = x + 180 
+    as we want the enemies on 180px right of the game area*/ 
     enemy.style.transform = `translate(${x+180}px, ${y}px)`;
 }
 
 function createEnemy(gameArea, x, y){
+    /*Create enemy as img*/
     const $enemy = document.createElement("img");
     $enemy.src = "/images/alien1.png";
     $enemy.className = "enemy";
-    gameArea.appendChild($enemy);
-    const enemy = {x, y, $enemy};
+    gameArea.appendChild($enemy); //Add the enemy to the gameArea in HTML
+    const enemy = {x, y, $enemy}; /*Pushing the enemy to the enemies array as they are created*/
     STATE.enemies.push(enemy);
+
+    /*Positioning the enemy created in the gameArea*/
     setPosition($enemy, x, y);
 }
   
 function updateEnemies()
 {
-    const dx = 70*Math.cos(Date.now()/500);
-    const dy = 40*Math.sin(Date.now()/500);
+    /*Applying the parametric Equation of ellipse to create the motion of the enemies*/
+    const dx = 70*Math.cos(Date.now()/1000);
+    const dy = 40*Math.sin(Date.now()/1000);
     const enemies = STATE.enemies;
+
     for (let i = 0; i < enemies.length; i++){
       const enemy = enemies[i];
-      var a = enemy.x + dx;
-      var b = enemy.y + dy;
-      setPosition(enemy.$enemy, a, b);
+      var a = enemy.x + dx; //a is the locus of the ellipse
+      var b = enemy.y + dy; //b is the locus of the ellipse
+      setPosition(enemy.$enemy, a, b); 
     }
 }
 
 function createEnemies(gameArea) {
+    /*Creating the enemies one row at a time*/
     for(var i = 0; i < STATE.number_of_enemies/3; i++){
       createEnemy(gameArea, i*80, 100);
     } 
@@ -168,34 +263,48 @@ function createEnemies(gameArea) {
     }
 }
 
-const gameArea = document.querySelector("#gameArea");
+const gameArea = document.querySelector("#gameArea"); //Storing gameArea
 createEnemies(gameArea);
 
-setInterval(updateEnemies,10);
+/*----------------------------------------------------------*/
 
-function update(){
-    updateEnemies(gameArea);
-}
-setInterval(updateLaser,4);
-setInterval(updateEnemyLaser,20);
+
+
+
+
+        /*----------The Laser Tech----------*/
+
+/*Continuously Updating the Ship Laser and the Enemy Laser*/
+let update_laser = setInterval(updateLaser,4);
+let update_EnemyLaser = setInterval(updateEnemyLaser,20);
+
 function createLaser(){
+
+    /*The Space Bar triggers the createLaser function and this is where the magic happens*/
     const $laser = document.createElement("img");
     $laser.src = "images/laser.png";
     $laser.className = "laser";
     gameArea.appendChild($laser);
-    var y=470;
+
+    var y=470; //y denotes the location on the y-axis where the lasers will be spawned
     var laser={x,y,$laser};
     STATE.lasers.push(laser);
     $laser.style.transform=`translate(${x}px,${y}px)`;
 }
 
+/*Niharika will comment on this
+
+
+
+
+*/
 function updateLaser(){
     for (let i = 0; i < STATE.lasers.length; i++)
     {
         const laser = STATE.lasers[i];
         laser.y-=2;
         laser.$laser.style.transform=`translate(${laser.x}px,${laser.y}px)`;
-        if(laser.y<=10)
+        if(laser.y<=0)
             deleteLaser(STATE.lasers,laser,laser.$laser);
         const laser_rectangle = laser.$laser.getBoundingClientRect();
         for(let j = 0; j < STATE.enemies.length; j++){
@@ -242,6 +351,7 @@ function updateEnemyLaser(){
     }
 }
 
+/*The AABB algorithm used to calculate the collisiton*/
 function collideRect(rect1, rect2){
     return!(rect2.left > rect1.right || 
       rect2.right < rect1.left || 
@@ -249,26 +359,35 @@ function collideRect(rect1, rect2){
       rect2.bottom < rect1.top);
 }
 
+
+
+/*--------------The Game Condition Tech----------*/
+
 function lives(){
+    //The Fucntion calculates the amount of lives left
     if(STATE.lives>0){
         document.getElementById(`star${STATE.lives}`).style.display="none";
         STATE.lives--;
     }
     else{
-        self_explosion.play();
+        //Triggered when the lives become 0 
+        self_explosion.play(); //Trigger the destroy ship sound
         document.getElementById("countdown").style.fontSize="40px";
         document.getElementById("countdown").style.display="inline";
         document.getElementById("countdown").style.left="40%";
-        document.getElementById("countdown").innerHTML="You Lost! Restart";
+        document.getElementById("countdown").innerHTML="You Lost! Restart"; //Set the screen to You Lost
+
         flag=0;
 
     }
 }
 
+/*Its Navratri so Winner Winner Paneer Dinner*/
 function win(){
     document.getElementById("countdown").style.display="inline";
     document.getElementById("countdown").style.fontSize="40px";
     document.getElementById("countdown").style.left="40%";
-    document.getElementById("countdown").innerHTML="You Won! Restart";
+    document.getElementById("countdown").innerHTML="You Won! Restart"; //Set the screen to You Won
+
     flag=0;
 }
