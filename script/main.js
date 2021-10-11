@@ -154,28 +154,36 @@ function update(){
 }
 setInterval(updateLaser,20);
 setInterval(updateEnemyLaser,20);
-let c=1;
 function createLaser(){
     const $laser = document.createElement("img");
     $laser.src = "images/laser.png";
     $laser.className = "laser";
     gameArea.appendChild($laser);
     var y=470;
-    var xpos=x-c;
-    c++;
-    if(c>5) c=1;
-    var laser={xpos,y,$laser};
+    var laser={x,y,$laser};
     STATE.lasers.push(laser);
-    $laser.style.transform=`translate(${xpos}px,${y}px)`;
+    $laser.style.transform=`translate(${x}px,${y}px)`;
 }
 
 function updateLaser(){
     for (let i = 0; i < STATE.lasers.length; i++){
         const laser = STATE.lasers[i];
         laser.y-=2;
-        laser.$laser.style.transform=`translate(${laser.xpos}px,${laser.y}px)`;
+        laser.$laser.style.transform=`translate(${laser.x}px,${laser.y}px)`;
         if(laser.y<=10)
             deleteLaser(STATE.lasers,laser,laser.$laser);
+        const laser_rectangle = laser.$laser.getBoundingClientRect();
+        for(let j = 0; j < STATE.enemies.length; j++){
+            const enemy = STATE.enemies[j];
+            const enemy_rectangle = enemy.$enemy.getBoundingClientRect();
+            if(collideRect(enemy_rectangle, laser_rectangle)){
+                deleteLaser(STATE.lasers, laser, laser.$laser);
+                const index = STATE.enemies.indexOf(enemy);
+                STATE.enemies.splice(index,1);
+                gameArea.removeChild(enemy.$enemy);
+                STATE.number_of_enemies--;
+            }
+        }
     }
 }
 
@@ -189,13 +197,13 @@ function createEnemyLaser(){
     var no=Math.floor(Math.random() * 100);
     if(no<90){
         var index=Math.floor(Math.random()*(STATE.number_of_enemies));
-        if(index>0){
+        if(STATE.number_of_enemies>0){
             const $enemylaser = document.createElement("img");
             $enemylaser.src = "images/enemyLaser.png";
             $enemylaser.className = "enemyLaser";
             gameArea.appendChild($enemylaser);
             var enemy=STATE.enemies[index];
-            var x=enemy.x;
+            var x=enemy.x+180;
             var y=enemy.y;
             var enemylaser={x,y,$enemylaser};
             STATE.enemyLasers.push(enemylaser);
