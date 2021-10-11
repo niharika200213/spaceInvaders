@@ -109,9 +109,9 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
 
 #countdown{position: absolute;
     top: 40%;
-    left: 47%;
+    left: 25%;
     color: wheat;
-    font-size: 100px;
+    font-size: 70px;
     z-index: 2;
 }
 
