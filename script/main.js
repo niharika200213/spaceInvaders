@@ -196,3 +196,4 @@ function update(){
     updateEnemiesY();
     updateEnemies(gameArea);
 }
+``
