@@ -71,22 +71,24 @@ function countdown(){
             clearInterval(id);
             document.getElementById("countdown").style.display="none";
             document.getElementById("ships").style.pointerEvents="none";
-            document.addEventListener("keydown", function(e){
+            document.addEventListener("keydown",keypress);
+            function keypress(e){
 
                 var keycode = e.code;
                 if(keycode == "ArrowLeft") Keys.left = true;
                 if(keycode == "ArrowRight") Keys.right = true;
                 if(keycode == "Space"){Keys.space = true;}
                 move();
-            });
+            }
            
-            document.addEventListener("keyup", function(e){
+            document.addEventListener("keyup",keyrelease);
+            function keyrelease(e){
                 var keycode = e.code;
            
                 if(keycode == "ArrowLeft") Keys.left = false;
                 if(keycode == "ArrowRight") Keys.right = false;
                 if(keycode == "Space") Keys.space = false;
-           });
+           }
            
             setInterval(update, 10);
             setInterval(createEnemyLaser,500);
@@ -244,16 +246,18 @@ function lives(){
         STATE.lives--;
     }
     else{
-        document.removeEventListener("keydown");
         document.getElementById("countdown").style.fontSize="40px";
         document.getElementById("countdown").style.display="inline";
+        document.getElementById("countdown").style.left="40%";
         document.getElementById("countdown").innerHTML="You Lost! Restart";
+        document.onkeydown = function (e) {return false;};
     }
 }
 
 function win(){
-    document.removeEventListener("keydown");
     document.getElementById("countdown").style.display="inline";
     document.getElementById("countdown").style.fontSize="40px";
+    document.getElementById("countdown").style.left="40%";
     document.getElementById("countdown").innerHTML="You Won! Restart";
+    document.onkeydown = function (e) {return false;};
 }
