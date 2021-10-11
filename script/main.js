@@ -153,6 +153,7 @@ function update(){
     updateEnemies(gameArea);
 }
 setInterval(updateLaser,20);
+
 setInterval(updateEnemyLaser,20);
 function createLaser(){
     const $laser = document.createElement("img");
@@ -166,7 +167,8 @@ function createLaser(){
 }
 
 function updateLaser(){
-    for (let i = 0; i < STATE.lasers.length; i++){
+    for (let i = 0; i < STATE.lasers.length; i++)
+    {
         const laser = STATE.lasers[i];
         laser.y-=2;
         laser.$laser.style.transform=`translate(${laser.x}px,${laser.y}px)`;
@@ -194,6 +196,7 @@ function deleteLaser(lasers, laser, $laser){
 }
 
 function createEnemyLaser(){
+    
     var no=Math.floor(Math.random() * 100);
     if(no<90){
         var index=Math.floor(Math.random()*(STATE.number_of_enemies));
