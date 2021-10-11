@@ -23,7 +23,7 @@ const STATE = {
     lasers: [],
     enemyLasers: [],
     enemies : [],
-    number_of_enemies: 24,
+    number_of_enemies: 27,
     lives: 3
 }
 
@@ -74,10 +74,9 @@ function countdown(){
             document.addEventListener("keydown", function(e){
 
                 var keycode = e.code;
-           
                 if(keycode == "ArrowLeft") Keys.left = true;
                 if(keycode == "ArrowRight") Keys.right = true;
-                if(keycode == "Space") Keys.space = true;
+                if(keycode == "Space"){Keys.space = true;}
                 move();
             });
            
@@ -90,7 +89,7 @@ function countdown(){
            });
            
             setInterval(update, 10);
-            setInterval(createEnemyLaser,1000);
+            setInterval(createEnemyLaser,500);
 
         }
         else{
@@ -133,13 +132,13 @@ function updateEnemies()
 }
 
 function createEnemies(gameArea) {
-    for(var i = 0; i <= STATE.number_of_enemies/3; i++){
+    for(var i = 0; i < STATE.number_of_enemies/3; i++){
       createEnemy(gameArea, i*80, 100);
     } 
-    for(var i = 0; i <= STATE.number_of_enemies/3; i++){
+    for(var i = 0; i < STATE.number_of_enemies/3; i++){
       createEnemy(gameArea, i*80, 180);
     }
-    for(var i = 0; i <= STATE.number_of_enemies/3; i++){
+    for(var i = 0; i < STATE.number_of_enemies/3; i++){
         createEnemy(gameArea, i*80, 260);
     }
 }
@@ -182,9 +181,16 @@ function updateLaser(){
                 STATE.enemies.splice(index,1);
                 gameArea.removeChild(enemy.$enemy);
                 STATE.number_of_enemies--;
+                score();
             }
         }
+        if(STATE.number_of_enemies==0)
+            win();
     }
+}
+
+function score(){
+    document.getElementById("score").innerHTML=27-STATE.number_of_enemies+"/27";
 }
 
 function deleteLaser(lasers, laser, $laser){
@@ -194,24 +200,18 @@ function deleteLaser(lasers, laser, $laser){
 }
 
 function createEnemyLaser(){
-    var no=Math.floor(Math.random() * 100);
-    if(no<90){
-        var index=Math.floor(Math.random()*(STATE.number_of_enemies));
-        if(STATE.number_of_enemies>0){
-            const $enemylaser = document.createElement("img");
-            $enemylaser.src = "images/enemyLaser.png";
-            $enemylaser.className = "enemyLaser";
-            gameArea.appendChild($enemylaser);
-            var enemy=STATE.enemies[index];
-            var x=enemy.x+180;
-            var y=enemy.y;
-            var enemylaser={x,y,$enemylaser};
-            STATE.enemyLasers.push(enemylaser);
-            $enemylaser.style.transform=`translate(${x}px,${y}px)`;
-        }
-        else{
-            win();
-        }
+    var index=Math.floor(Math.random()*(STATE.number_of_enemies));
+    if(STATE.number_of_enemies>0){
+        const $enemylaser = document.createElement("img");
+        $enemylaser.src = "images/enemyLaser.png";
+        $enemylaser.className = "enemyLaser";
+        gameArea.appendChild($enemylaser);
+        var enemy=STATE.enemies[index];
+        var x=enemy.x+180;
+        var y=enemy.y;
+        var enemylaser={x,y,$enemylaser};
+        STATE.enemyLasers.push(enemylaser);
+        $enemylaser.style.transform=`translate(${x}px,${y}px)`;
     }
 }
 
@@ -222,6 +222,12 @@ function updateEnemyLaser(){
         laser.$enemylaser.style.transform=`translate(${laser.x}px,${laser.y}px)`;
         if(laser.y>=490)
             deleteLaser(STATE.enemyLasers,laser,laser.$enemylaser);
+        const enemylaserrect=laser.$enemylaser.getBoundingClientRect();
+        const shiprect=document.getElementById("curShip").getBoundingClientRect();
+        if(collideRect(enemylaserrect,shiprect)){
+            deleteLaser(STATE.enemyLasers, laser, laser.$enemylaser);
+            lives();
+        }
     }
 }
 
@@ -234,11 +240,20 @@ function collideRect(rect1, rect2){
 
 function lives(){
     if(STATE.lives>0){
-        document.getElementById(`star${STATE.lives}`).display="none";
+        document.getElementById(`star${STATE.lives}`).style.display="none";
         STATE.lives--;
     }
     else{
-        document.getElementById("countdown").style.fontSize=50+"px";
+        document.removeEventListener("keydown");
+        document.getElementById("countdown").style.fontSize="40px";
+        document.getElementById("countdown").style.display="inline";
         document.getElementById("countdown").innerHTML="You Lost! Restart";
     }
+}
+
+function win(){
+    document.removeEventListener("keydown");
+    document.getElementById("countdown").style.display="inline";
+    document.getElementById("countdown").style.fontSize="40px";
+    document.getElementById("countdown").innerHTML="You Won! Restart";
 }
