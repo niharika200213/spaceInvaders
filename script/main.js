@@ -95,6 +95,8 @@ function countdown(){
 
         }
         else{
+            document.getElementById("countdown").style.left="47%";
+            document.getElementById("countdown").style.fontSize="100px";
             document.getElementById("countdown").innerHTML=i;
             i--;}
     }
