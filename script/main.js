@@ -1,3 +1,4 @@
+let flag=1;
 function restart(){
     location.reload();
     return false;
@@ -52,10 +53,6 @@ function move(){
         x += shipSpeed;
         document.getElementById("curShip").style.left = x + "px";
     }
-
-    if(Keys.space){
-        createLaser();
-    }
 }
 
 function countdown(){
@@ -71,24 +68,23 @@ function countdown(){
             clearInterval(id);
             document.getElementById("countdown").style.display="none";
             document.getElementById("ships").style.pointerEvents="none";
-            document.addEventListener("keydown",keypress);
-            function keypress(e){
+            document.addEventListener("keydown",function(e){
 
                 var keycode = e.code;
                 if(keycode == "ArrowLeft") Keys.left = true;
                 if(keycode == "ArrowRight") Keys.right = true;
                 if(keycode == "Space"){Keys.space = true;}
-                move();
-            }
+                if(flag==1)
+                    move();
+            });
            
-            document.addEventListener("keyup",keyrelease);
-            function keyrelease(e){
+            document.addEventListener("keyup",function(e){
                 var keycode = e.code;
            
                 if(keycode == "ArrowLeft") Keys.left = false;
                 if(keycode == "ArrowRight") Keys.right = false;
-                if(keycode == "Space") Keys.space = false;
-           }
+                if(keycode == "Space"){Keys.space = false; if(flag==1) createLaser();}
+           });
            
             setInterval(update, 10);
             setInterval(createEnemyLaser,500);
@@ -252,7 +248,7 @@ function lives(){
         document.getElementById("countdown").style.display="inline";
         document.getElementById("countdown").style.left="40%";
         document.getElementById("countdown").innerHTML="You Lost! Restart";
-        document.onkeydown = function (e) {return false;};
+        flag=0;
     }
 }
 
@@ -261,5 +257,5 @@ function win(){
     document.getElementById("countdown").style.fontSize="40px";
     document.getElementById("countdown").style.left="40%";
     document.getElementById("countdown").innerHTML="You Won! Restart";
-    document.onkeydown = function (e) {return false;};
+    flag=0;
 }
