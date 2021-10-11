@@ -33,6 +33,13 @@ var y = 5;
 
 const shipSpeed = 8;
 
+document.getElementById("theme_song").play();
+
+var shooting = new Audio("../audio/lasershoot.mp3");
+var self_explosion = new Audio("../audio/disintegrate.mp3");
+var alienlaser = new Audio("../audio/enemylaser.mp3");
+var alienexplosion = new Audio("../audio/enemyexplosion.mp3")
+
 let Keys = {
     left: false,
     right: false,
@@ -83,11 +90,29 @@ function countdown(){
            
                 if(keycode == "ArrowLeft") Keys.left = false;
                 if(keycode == "ArrowRight") Keys.right = false;
-                if(keycode == "Space"){Keys.space = false; if(flag==1) createLaser();}
+                if(keycode == "Space"){Keys.space = false; shooting.play(); if(flag==1) createLaser();}
            });
            
             setInterval(update, 10);
-            setInterval(createEnemyLaser,500);
+            setInterval(createEnemyLaser,1000);
+
+            function createEnemyLaser(){
+                var index=Math.floor(Math.random()*(STATE.number_of_enemies));
+                if(STATE.number_of_enemies>0){
+                    const $enemylaser = document.createElement("img");
+                    $enemylaser.src = "images/enemyLaser.png";
+                    $enemylaser.className = "enemyLaser";
+
+                    alienlaser.play();
+                    gameArea.appendChild($enemylaser);
+                    var enemy=STATE.enemies[index];
+                    var x=enemy.x+180;
+                    var y=enemy.y;
+                    var enemylaser={x,y,$enemylaser};
+                    STATE.enemyLasers.push(enemylaser);
+                    $enemylaser.style.transform=`translate(${x}px,${y}px)`;
+                }
+            }
 
         }
         else{
@@ -104,8 +129,8 @@ function start(){
     document.getElementById("start").onkeydown = function (e) {return false;};
 }
 
-function setPosition($enemy, x, y) {
-    $enemy.style.transform = `translate(${x+180}px, ${y}px)`;
+function setPosition(enemy, x, y) {
+    enemy.style.transform = `translate(${x+180}px, ${y}px)`;
 }
 
 function createEnemy(gameArea, x, y){
@@ -177,6 +202,7 @@ function updateLaser(){
             const enemy = STATE.enemies[j];
             const enemy_rectangle = enemy.$enemy.getBoundingClientRect();
             if(collideRect(enemy_rectangle, laser_rectangle)){
+                alienexplosion.play();
                 deleteLaser(STATE.lasers, laser, laser.$laser);
                 const index = STATE.enemies.indexOf(enemy);
                 STATE.enemies.splice(index,1);
@@ -198,22 +224,6 @@ function deleteLaser(lasers, laser, $laser){
     const index = lasers.indexOf(laser);
     lasers.splice(index,1);
     gameArea.removeChild($laser);
-}
-
-function createEnemyLaser(){
-    var index=Math.floor(Math.random()*(STATE.number_of_enemies));
-    if(STATE.number_of_enemies>0){
-        const $enemylaser = document.createElement("img");
-        $enemylaser.src = "images/enemyLaser.png";
-        $enemylaser.className = "enemyLaser";
-        gameArea.appendChild($enemylaser);
-        var enemy=STATE.enemies[index];
-        var x=enemy.x+180;
-        var y=enemy.y;
-        var enemylaser={x,y,$enemylaser};
-        STATE.enemyLasers.push(enemylaser);
-        $enemylaser.style.transform=`translate(${x}px,${y}px)`;
-    }
 }
 
 function updateEnemyLaser(){
@@ -245,11 +255,13 @@ function lives(){
         STATE.lives--;
     }
     else{
+        self_explosion.play();
         document.getElementById("countdown").style.fontSize="40px";
         document.getElementById("countdown").style.display="inline";
         document.getElementById("countdown").style.left="40%";
         document.getElementById("countdown").innerHTML="You Lost! Restart";
         flag=0;
+
     }
 }
 
