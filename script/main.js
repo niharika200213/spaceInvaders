@@ -177,7 +177,7 @@ function update(){
     updateEnemies(gameArea);
 }
 setInterval(updateLaser,4);
-setInterval(updateEnemyLaser,20);
+setInterval(updateEnemyLaser,4);
 function createLaser(){
     const $laser = document.createElement("img");
     $laser.src = "images/laser.png";
