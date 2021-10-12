@@ -276,7 +276,7 @@ createEnemies(gameArea);
 
 /*Continuously Updating the Ship Laser and the Enemy Laser*/
 let update_laser = setInterval(updateLaser,4);
-let update_EnemyLaser = setInterval(updateEnemyLaser,20);
+let update_EnemyLaser = setInterval(updateEnemyLaser,10);
 
 function createLaser(){
 
@@ -292,11 +292,10 @@ function createLaser(){
     $laser.style.transform=`translate(${x}px,${y}px)`;
 }
 
-/*Niharika will comment on this
-
-
-
-
+/*traverse all lasers in the array and decrement y
+delete the laser when it reaches the top
+delete the enemy and the laser when the laser and enemy collides
+if number of enemies=0 player will win
 */
 function updateLaser(){
     for (let i = 0; i < STATE.lasers.length; i++)
@@ -376,7 +375,6 @@ function lives(){
         document.getElementById("countdown").style.display="inline";
         document.getElementById("countdown").style.left="40%";
         document.getElementById("countdown").innerHTML="You Lost! Restart"; //Set the screen to You Lost
-
         flag=0;
 
     }
@@ -388,6 +386,5 @@ function win(){
     document.getElementById("countdown").style.fontSize="40px";
     document.getElementById("countdown").style.left="40%";
     document.getElementById("countdown").innerHTML="You Won! Restart"; //Set the screen to You Won
-
     flag=0;
 }
