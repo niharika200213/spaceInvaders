@@ -166,8 +166,8 @@ function countdown(){
                 }
            });
            
-           var update_enemy =  setInterval(updateEnemies,10); //Calling the function to update the position of the enemies
-           var create_enemylaser = setInterval(createEnemyLaser,750); //Calling the function to update the position of the enemy lasers
+           let update_enemy =  setInterval(updateEnemies,10); //Calling the function to update the position of the enemies
+           let create_enemylaser = setInterval(createEnemyLaser,500); //Calling the function to update the position of the enemy lasers
 
             function createEnemyLaser()
             {
@@ -189,8 +189,8 @@ function countdown(){
 
                     /*Enemy is an object which contains their respective class, x and y postion*/
                     var enemy=STATE.enemies[index];
-                    var x=enemy.x+180;
-                    var y=enemy.y;
+                    var x=enemy.cur_x+180;
+                    var y=enemy.cur_y;
                     var enemylaser={x,y,$enemylaser};
 
                     STATE.enemyLasers.push(enemylaser);
@@ -225,10 +225,12 @@ function setPosition(enemy, x, y) {
 function createEnemy(gameArea, x, y){
     /*Create enemy as img*/
     const $enemy = document.createElement("img");
+    var cur_x=x;
+    var cur_y=y;
     $enemy.src = "/images/alien1.png";
     $enemy.className = "enemy";
     gameArea.appendChild($enemy); //Add the enemy to the gameArea in HTML
-    const enemy = {x, y, $enemy}; /*Pushing the enemy to the enemies array as they are created*/
+    const enemy = {x, y, $enemy, cur_x, cur_y}; /*Pushing the enemy to the enemies array as they are created*/
     STATE.enemies.push(enemy);
 
     /*Positioning the enemy created in the gameArea*/
@@ -246,6 +248,8 @@ function updateEnemies()
       const enemy = enemies[i];
       var a = enemy.x + dx; //a is the locus of the ellipse
       var b = enemy.y + dy; //b is the locus of the ellipse
+      enemy.cur_x=a;
+      enemy.cur_y=b;
       setPosition(enemy.$enemy, a, b); 
     }
 }
