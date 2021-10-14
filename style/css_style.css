@@ -46,20 +46,23 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
 
 #buttons{display: flexbox;}
 
-#restart,#start{
-    padding: 10px;
+.buttons{
     font-family: 'Times New Roman';
     background-color: darkslategray;
-    font-size: 20px;
     cursor: pointer;
+}
+
+.buttons{
+    padding: 10px;    
+    font-size: 20px;
     box-shadow: 5px 5px #999;
     margin: 20px 10px 10px 20px;
 }
 
-#restart:hover,#start:hover {background-color: rgb(31, 59, 59);
+.buttons:hover {background-color: rgb(31, 59, 59);
     color: white;}
 
-#restart:active,#start:active{box-shadow: 0 2px #666;
+.buttons:active,.active{box-shadow: 0 2px #666;
     transform: translateY(3px);
     color: white;}
 
@@ -84,8 +87,8 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
 .scoreArea h6:nth-of-type(3){
     font-family: 'Times New Roman';
     color: white;
-    font-size: 30px;
-    margin: 20px;
+    font-size: 20px;
+    margin: 10px;
     text-shadow: none;
 }
 
@@ -108,10 +111,10 @@ body{background:linear-gradient(rgb(0, 0, 0),rgb(4, 121, 156));
 }
 
 #countdown{position: absolute;
-    top: 40%;
-    left: 25%;
+    top: 60%;
+    margin-left: 13%;
     color: wheat;
-    font-size: 70px;
+    font-size: 25px;
     z-index: 2;
 }
 
