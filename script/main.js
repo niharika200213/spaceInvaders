@@ -1,5 +1,6 @@
 let flag=1; 
-let flagL=1;//Flag to ensure that game has ended
+let flagL=1;
+let flaghard;
 
 //Restart button triggers location.reload() which reloads the current url
 function restart(){
@@ -21,14 +22,17 @@ function hard(){
     document.getElementById("hard").onkeydown = function (e) {return false;};
     document.getElementById("hard").style.pointerEvents='none';
     document.getElementById("easy").style.pointerEvents='none';
+    flaghard=0;
+}
+
+function hardfunc(){
     let upY=setInterval(updateY,1000);
     function updateY()
     {
-        var rect=playerShip.getBoundingClientRect();
         for(var i=0; i<STATE.enemies.length; i++){
             var enemy=STATE.enemies[i];
-            enemy.y+=4;
-            if(enemy.y==rect.top){
+            enemy.y+=3;
+            if(enemy.y>=450){
                 clearInterval(upY);
                 clearInterval(create_enemylaser);
                 flagL=0;
@@ -158,6 +162,9 @@ function countdown(){
             document.getElementById("countdown").innerHTML="Go!!";
             create_enemylaser = setInterval(createEnemyLaser,500);
             i--; //To ensure the counter now has -1 as that will be used as a condition to run the game
+            if(flaghard==0){
+                hardfunc();
+            }
         }
         else if(i<0){
             //Clear the Countdown
@@ -412,7 +419,8 @@ function lives(){
         document.getElementById("countdown").innerHTML="You Lost! Restart"; //Set the screen to You Lost
         flag=0;
         clearInterval(update_laser);
-        document.getElementsByClassName("laser").style.display="none";
+        document.querySelectorAll('.laser').forEach(e => e.remove());
+        if(flaghard==0) clearInterval(upY);
     }
 }
 
@@ -424,5 +432,5 @@ function win(){
     document.getElementById("countdown").innerHTML="You Won! Restart"; //Set the screen to You Won
     flag=0;
     clearInterval(update_EnemyLaser);
-    document.getElementsByClassName("enemyLaser").style.display="none";
+    document.querySelectorAll('.enemyLaser').forEach(e => e.remove());
 }
